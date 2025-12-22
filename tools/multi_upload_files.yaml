@@ -2,8 +2,8 @@ identity:
   name: "multi_upload_files"
   author: Tencent Cloud
   label:
-    en_US: Multi Upload Files to Tencent Cloud COS
-    zh_Hans: 批量上传文件到腾讯云COS
+    en_US: Multi Upload Files to COS
+    zh_Hans: 批量上传文件到COS
   tags:
     - utilities
     - productivity

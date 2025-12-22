@@ -1,0 +1,30 @@
+identity:
+  name: "get_public_file_by_url"
+  author: "sawyer-shi"
+  label:
+    en_US: "Download Public File by URL"
+    zh_Hans: "下载公共文件"
+  tags:
+    - utilities
+    - productivity
+  icon: icon.png
+description:
+  human:
+    en_US: "Download public files from any platform without authentication requirements"
+    zh_Hans: "从任何平台下载公共文件，无需任何身份验证要求"
+  llm: "Download public files from any platform without authentication requirements"
+parameters:
+  - name: file_url
+    type: string
+    required: true
+    label:
+      en_US: Public File URL
+      zh_Hans: 公共文件URL
+    human_description:
+      en_US: "The URL of the public file that can be accessed without authentication"
+      zh_Hans: "无需身份验证即可访问的公共文件的URL"
+    llm_description: "The URL of the public file that can be accessed without authentication"
+    form: llm
+extra:
+  python:
+    source: tools/get_public_file_by_url.py
