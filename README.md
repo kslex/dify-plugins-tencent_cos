@@ -4,13 +4,15 @@ A powerful Dify plugin providing seamless integration with Tencent Cloud Object 
 
 ### Version Information
 
-- **Current Version**: v0.0.2
-- **Release Date**: 2025-09-30
-- **Last Updated**: 2025-09-30
+- **Current Version**: v0.0.3
+- **Release Date**: 2025-12-21
+- **Last Updated**: 2025-12-21
 - **Compatibility**: Dify Plugin Framework
 - **Python Version**: 3.12
 
 #### Version History
+- **v0.0.3** (2025-12-21): Added batch file download and public file download capabilities
+- **v0.0.2** (2025-09-30): Added multi-file upload functionality with enhanced directory and filename options
 - **v0.0.1** (2025-09-30): Initial release with file upload and retrieval capabilities, support for multiple directory structures and filename modes
 
 ### Quick Start
@@ -36,6 +38,16 @@ A powerful Dify plugin providing seamless integration with Tencent Cloud Object 
 #### File Retrieval by URL
 - **Direct Content Access**: Retrieve file content directly using COS URLs
 - **Cross-Region Support**: Works with all Tencent Cloud COS regions worldwide
+
+#### Batch File Download
+- **Multiple URLs Support**: Download multiple files using a list of URLs separated by semicolons
+- **Progress Tracking**: Real-time status updates for each file download
+- **Comprehensive Statistics**: Summary of total files, successful downloads, and total size
+
+#### Public File Download
+- **No Authentication Required**: Download public files from any platform without API keys
+- **Universal Compatibility**: Works with any publicly accessible file URL
+- **Smart Filename Detection**: Automatically extracts filenames from URLs or headers
 
 ### Technical Advantages
 
@@ -68,7 +80,7 @@ A powerful Dify plugin providing seamless integration with Tencent Cloud Object 
 
 ### Usage
 
-The plugin provides three powerful tools for interacting with Tencent Cloud COS:
+The plugin provides five powerful tools for interacting with Tencent Cloud COS:
 
 #### 1. Upload File to COS (upload_file)
 
@@ -104,6 +116,18 @@ Dedicated tool for uploading multiple files to Tencent Cloud COS.
 Dedicated tool for retrieving files from Tencent Cloud COS using URLs.
 - **Parameters**:
   - `file_url`: The URL of the file in Tencent Cloud COS
+
+#### 4. Batch Download Files by URLs (get_files_by_urls)
+
+Dedicated tool for batch downloading multiple files from Tencent Cloud COS.
+- **Parameters**:
+  - `file_urls`: Multiple URLs of files in Tencent Cloud COS, separated by semicolon (;)
+
+#### 5. Download Public File by URL (get_public_file_by_url)
+
+Dedicated tool for downloading public files from any platform without authentication.
+- **Parameters**:
+  - `file_url`: The URL of the public file that can be accessed without authentication
 
 ### Examples
 
