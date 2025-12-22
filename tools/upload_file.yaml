@@ -2,8 +2,8 @@ identity:
   name: "upload_file"
   author: "sawyer-shi"
   label:
-    en_US: "Upload File to Tencent Cloud COS"
-    zh_Hans: "上传文件到腾讯云COS返回URL"
+    en_US: "Upload File toCOS"
+    zh_Hans: "上传文件到COS"
   tags:
     - utilities
     - productivity

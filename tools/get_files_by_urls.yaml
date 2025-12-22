@@ -1,0 +1,30 @@
+identity:
+  name: "get_files_by_urls"
+  author: "sawyer-shi"
+  label:
+    en_US: "Batch Download COS Files"
+    zh_Hans: "批量下载COS文件"
+  tags:
+    - utilities
+    - productivity
+  icon: icon.png
+description:
+  human:
+    en_US: "Batch retrieve multiple files from Tencent Cloud COS using their URLs, separated by semicolon (;)"
+    zh_Hans: "通过多个URL批量获取腾讯云COS中的文件，URL之间使用分号(;)分隔"
+  llm: "Batch retrieve multiple files from Tencent Cloud COS using their URLs, separated by semicolon (;)"
+parameters:
+  - name: file_urls
+    type: string
+    required: true
+    label:
+      en_US: COS File URLs
+      zh_Hans: COS文件URL列表
+    human_description:
+      en_US: "Multiple URLs of files in Tencent Cloud COS, separated by semicolon (;)"
+      zh_Hans: "腾讯云COS中多个文件的URL，使用分号(;)分隔"
+    llm_description: "Multiple URLs of files in Tencent Cloud COS, separated by semicolon (;)"
+    form: llm
+extra:
+  python:
+    source: tools/get_files_by_urls.py
