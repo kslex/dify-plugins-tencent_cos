@@ -9,7 +9,7 @@ from qcloud_cos.cos_exception import CosServiceError
 from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 from dify_plugin.file.file import File
-from .utils import get_file_type, get_file_extension
+from .utils import get_file_type, get_file_extension, generate_object_key
 
 class UploadFileTool(Tool):
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
@@ -303,7 +303,7 @@ class UploadFileTool(Tool):
                     filename = f"{base_name}{extension}"
             
             # 根据目录模式生成完整的文件路径
-            object_key = self._generate_object_key(directory, directory_mode, filename)
+            object_key = generate_object_key(directory, directory_mode, filename)
             
             # 创建腾讯云COS客户端
             config = CosConfig(
@@ -374,32 +374,3 @@ class UploadFileTool(Tool):
             error_message = f"Failed to upload file: {str(e)}"
             raise ValueError(error_message)
     
-    def _generate_object_key(self, directory: str, directory_mode: str, filename: str) -> str:
-        """
-        根据目录模式生成完整的对象键
-        
-        Args:
-            directory: 目录名称
-            directory_mode: 目录模式
-            filename: 文件名
-            
-        Returns:
-            完整的对象键
-        """
-        # 对directory进行前后去空格处理
-        directory = directory.strip()
-        
-        # 根据目录模式生成路径
-        if directory_mode == 'yyyy_mm_dd_hierarchy':
-            # 年/月/日 层级目录
-            date_path = datetime.now().strftime('%Y/%m/%d')
-            object_key = f"{directory}/{date_path}/{filename}"
-        elif directory_mode == 'yyyy_mm_dd_combined':
-            # 年月日 一体目录
-            date_path = datetime.now().strftime('%Y%m%d')
-            object_key = f"{directory}/{date_path}/{filename}"
-        else:
-            # 默认：无子目录
-            object_key = f"{directory}/{filename}"
-        
-        return object_key

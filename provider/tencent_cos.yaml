@@ -5,8 +5,8 @@ identity:
     en_US: "Tencent Cloud COS"
     zh_Hans: "腾讯云COS云存储"
   description:
-    en_US: "For interacting with Tencent Cloud COS, supporting file upload, file download, batch file upload, batch file download, and public file download"
-    zh_Hans: "用于与腾讯云COS交互，支持文件上传、文件下载、批量上传文件、批量下载文件、公共文件下载"
+    en_US: "For interacting with Tencent Cloud COS, supporting file upload, file download, batch file upload, batch file download, public file download, presigned upload URL generation, and presigned download URL generation"
+    zh_Hans: "用于与腾讯云COS交互，支持文件上传、文件下载、批量上传文件、批量下载文件、公共文件下载、生成预签名上传URL、生成预签名下载URL"
   icon: "icon.png"
 
 tools:
@@ -15,6 +15,8 @@ tools:
   - tools/multi_upload_files.yaml
   - tools/get_files_by_urls.yaml
   - tools/get_public_file_by_url.yaml
+  - tools/generate_presigned_upload_url.yaml
+  - tools/generate_presigned_download_url.yaml
 
 credentials_for_provider:
   secret_id:

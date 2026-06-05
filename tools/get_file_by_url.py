@@ -1,14 +1,12 @@
 import os
-import re
-from urllib.parse import urlparse, unquote
-from typing import Any, Dict, Optional, Generator
+from typing import Any, Dict, Generator
 from dify_plugin.entities.tool import ToolInvokeMessage
 
 from qcloud_cos import CosConfig, CosS3Client
 from qcloud_cos.cos_exception import CosServiceError
 
 from dify_plugin.interfaces.tool import Tool, ToolProvider
-from .utils import get_extension_from_content_type
+from .utils import get_extension_from_content_type, parse_cos_url
 
 
 class GetFileByUrlTool(Tool):
@@ -91,7 +89,7 @@ class GetFileByUrlTool(Tool):
             }
             
             # 解析URL获取bucket、region和object_key
-            bucket, region, object_key = self._parse_cos_url(file_url)
+            bucket, region, object_key = parse_cos_url(file_url)
             
             # 如果URL中的bucket与凭证中的bucket不一致，使用URL中的bucket
             if bucket and bucket != credentials['bucket']:
@@ -145,26 +143,3 @@ class GetFileByUrlTool(Tool):
             error_message = f"Failed to retrieve file: {str(e)}"
             raise ValueError(error_message)
     
-    def _parse_cos_url(self, url: str) -> tuple:
-        """
-        解析COS URL，支持标准格式和自定义域名格式
-        标准格式: https://bucket.cos.region.myqcloud.com/object_key
-        自定义域名格式: https://custom-domain/object_key
-        """
-        parsed_url = urlparse(url)
-        
-        # 处理URL编码
-        object_key = unquote(parsed_url.path.lstrip('/'))
-        
-        # 如果是标准COS URL格式 (bucket.cos.region.myqcloud.com)
-        if parsed_url.hostname and parsed_url.hostname.endswith('.myqcloud.com'):
-            # 提取bucket和region
-            hostname_parts = parsed_url.hostname.split('.')
-            if len(hostname_parts) >= 4 and hostname_parts[1] == 'cos':
-                bucket_name = hostname_parts[0]
-                region_name = hostname_parts[2]
-                return (bucket_name, region_name, object_key)
-        
-        # 对于自定义域名格式，需要额外的region或bucket验证
-        # 此处仅返回None作为bucket和region，由调用方处理
-        return None, None, object_key

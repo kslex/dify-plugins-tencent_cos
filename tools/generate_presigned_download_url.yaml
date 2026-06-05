@@ -1,0 +1,53 @@
+identity:
+  name: "generate_presigned_download_url"
+  author: "sawyer-shi"
+  label:
+    en_US: "Generate Presigned Download URL"
+    zh_Hans: "生成预签名下载URL"
+  tags:
+    - utilities
+    - productivity
+  icon: icon.png
+description:
+  human:
+    en_US: "Generate a presigned URL for downloading files from Tencent Cloud COS"
+    zh_Hans: "生成用于从腾讯云COS下载文件的预签名URL"
+  llm: "Generate a presigned URL for downloading files from Tencent Cloud COS"
+parameters:
+  - name: file_url
+    type: string
+    required: false
+    label:
+      en_US: COS File URL
+      zh_Hans: COS文件URL
+    human_description:
+      en_US: "The URL of the file in Tencent Cloud COS (either file_url or object_key is required)"
+      zh_Hans: "腾讯云COS中文件的URL（file_url和object_key至少填一个）"
+    llm_description: "The URL of the file in Tencent Cloud COS"
+    form: llm
+  - name: object_key
+    type: string
+    required: false
+    label:
+      en_US: Object Key
+      zh_Hans: 对象键
+    human_description:
+      en_US: "The object key of the file in COS (either file_url or object_key is required)"
+      zh_Hans: "COS中文件的对象键（file_url和object_key至少填一个）"
+    llm_description: "The object key of the file in COS"
+    form: llm
+  - name: expired
+    type: number
+    required: false
+    label:
+      en_US: Expiration Time
+      zh_Hans: 过期时间
+    human_description:
+      en_US: "The expiration time of the presigned URL in seconds (default: 300)"
+      zh_Hans: "预签名URL的过期时间，单位为秒（默认：300）"
+    llm_description: "The expiration time of the presigned URL in seconds"
+    form: llm
+    default: 300
+extra:
+  python:
+    source: tools/generate_presigned_download_url.py

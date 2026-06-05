@@ -1,0 +1,110 @@
+identity:
+  name: "generate_presigned_upload_url"
+  author: "sawyer-shi"
+  label:
+    en_US: "Generate Presigned Upload URL"
+    zh_Hans: "生成预签名上传URL"
+  tags:
+    - utilities
+    - productivity
+  icon: icon.png
+description:
+  human:
+    en_US: "Generate a presigned URL for uploading files to Tencent Cloud COS"
+    zh_Hans: "生成用于上传文件到腾讯云COS的预签名URL"
+  llm: "Generate a presigned URL for uploading files to Tencent Cloud COS"
+parameters:
+  - name: file
+    type: file
+    required: true
+    label:
+      en_US: File
+      zh_Hans: 文件
+    human_description:
+      en_US: "The file to generate presigned upload URL for"
+      zh_Hans: "要生成预签名上传URL的文件"
+    llm_description: "The file to generate presigned upload URL for"
+    form: llm
+  - name: directory
+    type: string
+    required: true
+    label:
+      en_US: Directory
+      zh_Hans: 一级目录（例如：test）
+    human_description:
+      en_US: "The first-level directory name under the bucket"
+      zh_Hans: "Bucket下的一级目录名称"
+    llm_description: "The first-level directory name under the bucket"
+    form: llm
+  - name: filename
+    type: string
+    required: false
+    label:
+      en_US: File Name
+      zh_Hans: 文件名
+    human_description:
+      en_US: "The filename to use when storing the file in COS (optional, default is the original filename of the uploaded file)"
+      zh_Hans: "在COS中存储文件时使用的文件名（可选，默认为上传文件的原始文件名）"
+    llm_description: "The filename to use when storing the file in COS, optional, default is the original filename of the uploaded file"
+    form: llm
+  - name: filename_mode
+    type: select
+    required: false
+    label:
+      en_US: Filename Mode
+      zh_Hans: 文件名组成
+    human_description:
+      en_US: "The way to compose the filename. 'filename': use the specified filename; 'filename_timestamp': use the filename plus timestamp"
+      zh_Hans: "文件名组成方式。'filename'：使用指定文件名；'filename_timestamp'：使用文件名加上时间戳"
+    llm_description: "The way to compose the filename"
+    form: llm
+    options:
+      - label:
+          en_US: "Filename"
+          zh_Hans: "纯文件名"
+        value: "filename"
+      - label:
+          en_US: "Filename + Timestamp"
+          zh_Hans: "文件名+时间戳数字"
+        value: "filename_timestamp"
+    default: "filename"
+  - name: directory_mode
+    type: select
+    required: false
+    label:
+      en_US: Parent Directory Mode
+      zh_Hans: 文件上级目录结构
+    human_description:
+      en_US: "Directory structure mode for storing files. 'no_subdirectory': store directly in the specified directory; 'yyyy_mm_dd_hierarchy': store in date hierarchy (year/month/day); 'yyyy_mm_dd_combined': store in combined date directory (yyyymmdd)"
+      zh_Hans: "存储文件的目录结构模式。'no_subdirectory'：直接存储在指定目录；'yyyy_mm_dd_hierarchy'：按日期层级存储（年/月/日）；'yyyy_mm_dd_combined'：按合并日期目录存储（年月日）"
+    llm_description: "Directory structure mode for storing files"
+    form: llm
+    options:
+      - label:
+          en_US: "No Subdirectory"
+          zh_Hans: "无子目录"
+        value: "no_subdirectory"
+      - label:
+          en_US: "Year/Month/Day Hierarchy"
+          zh_Hans: "年月日层级子目录"
+        value: "yyyy_mm_dd_hierarchy"
+      - label:
+          en_US: "Combined Date Directory"
+          zh_Hans: "年月日一体子目录"
+        value: "yyyy_mm_dd_combined"
+    default: "no_subdirectory"
+  - name: expired
+    type: number
+    required: false
+    label:
+      en_US: Expiration Time
+      zh_Hans: 过期时间
+    human_description:
+      en_US: "The expiration time of the presigned URL in seconds (default: 300)"
+      zh_Hans: "预签名URL的过期时间，单位为秒（默认：300）"
+    llm_description: "The expiration time of the presigned URL in seconds"
+    form: llm
+    default: 300
+extra:
+  python:
+    source: tools/generate_presigned_upload_url.py

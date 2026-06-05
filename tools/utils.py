@@ -1,5 +1,7 @@
 import os
+from datetime import datetime
 from typing import Any, Union
+from urllib.parse import urlparse, unquote
 
 # 内容类型到扩展名的映射表（带点号）
 CONTENT_TYPE_TO_EXTENSION_WITH_DOT = {
@@ -189,3 +191,59 @@ def get_file_extension(file: Any) -> str:
         return get_extension_from_content_type(file.content_type)
     
     return ".dat"
+
+
+def generate_object_key(directory: str, directory_mode: str, filename: str) -> str:
+    """
+    根据目录模式生成完整的对象键
+
+    Args:
+        directory: 目录名称
+        directory_mode: 目录模式
+        filename: 文件名
+
+    Returns:
+        完整的对象键
+    """
+    # 对directory进行前后去空格处理
+    directory = directory.strip()
+
+    # 根据目录模式生成路径
+    if directory_mode == 'yyyy_mm_dd_hierarchy':
+        # 年/月/日 层级目录
+        date_path = datetime.now().strftime('%Y/%m/%d')
+        object_key = f"{directory}/{date_path}/{filename}"
+    elif directory_mode == 'yyyy_mm_dd_combined':
+        # 年月日 一体目录
+        date_path = datetime.now().strftime('%Y%m%d')
+        object_key = f"{directory}/{date_path}/{filename}"
+    else:
+        # 默认：无子目录
+        object_key = f"{directory}/{filename}"
+
+    return object_key
+
+
+def parse_cos_url(url: str) -> tuple:
+    """
+    解析COS URL，支持标准格式和自定义域名格式
+    标准格式: https://bucket.cos.region.myqcloud.com/object_key
+    自定义域名格式: https://custom-domain/object_key
+    """
+    parsed_url = urlparse(url)
+
+    # 处理URL编码
+    object_key = unquote(parsed_url.path.lstrip('/'))
+
+    # 如果是标准COS URL格式 (bucket.cos.region.myqcloud.com)
+    if parsed_url.hostname and parsed_url.hostname.endswith('.myqcloud.com'):
+        # 提取bucket和region
+        hostname_parts = parsed_url.hostname.split('.')
+        if len(hostname_parts) >= 4 and hostname_parts[1] == 'cos':
+            bucket_name = hostname_parts[0]
+            region_name = hostname_parts[2]
+            return (bucket_name, region_name, object_key)
+
+    # 对于自定义域名格式，需要额外的region或bucket验证
+    # 此处仅返回None作为bucket和region，由调用方处理
+    return None, None, object_key
